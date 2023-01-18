@@ -3,11 +3,11 @@ import random
 from typing import TypeVar, List, Tuple
 
 T = TypeVar("T")
-HashNode = TypeVar("HashNode")
-HashTable = TypeVar("HashTable")
+Node = TypeVar("Node")
+Table = TypeVar("Table")
 
 
-class HashNode:
+class Node:
     __slots__ = ["key", "value", "deleted"]
 
     def __init__(self, key: str, value: T, deleted: bool = False) -> None:
@@ -16,20 +16,20 @@ class HashNode:
         self.deleted = deleted
 
     def __str__(self) -> str:
-        return f"HashNode({self.key}, {self.value})"
+        return f"Node({self.key}, {self.value})"
 
     __repr__ = __str__
 
-    def __eq__(self, other: HashNode) -> bool:
+    def __eq__(self, other: Node) -> bool:
         return self.key == other.key and self.value == other.value
 
     def __iadd__(self, other: T) -> None:
         self.value += other
 
 
-class HashTable:
+class Table:
     """
-    Hash Table Class
+    Hash Table
     """
     __slots__ = ['capacity', 'size', 'table', 'prime_index']
 
@@ -51,11 +51,11 @@ class HashTable:
         self.table = [None] * capacity
 
         i = 0
-        while HashTable.primes[i] <= self.capacity:
+        while Table.primes[i] <= self.capacity:
             i += 1
         self.prime_index = i - 1
 
-    def __eq__(self, other: HashTable) -> bool:
+    def __eq__(self, other: Table) -> bool:
         """
         Equality operator
         :param other: other hash table we are comparing with this one
@@ -109,7 +109,7 @@ class HashTable:
         for char in key:
             hashed_value = 181 * hashed_value + ord(char)
 
-        prime = HashTable.primes[self.prime_index]
+        prime = Table.primes[self.prime_index]
 
         hashed_value = prime - (hashed_value % prime)
         if hashed_value % 2 == 0:
@@ -201,16 +201,16 @@ class HashTable:
         if key is None:
             return None
         hash_index = self._hash(key, True)
-        self.table[hash_index] = HashNode(key, value)
+        self.table[hash_index] = Node(key, value)
         self.size += 1
         if self.size >= len(self.table) // 2:
             self._grow()
 
-    def _get(self, key: str) -> HashNode:
+    def _get(self, key: str) -> Node:
         """
         gets hash_index
         :param: key: str
-        :returns: HashNode
+        :returns: Node
         """
         hash_index = self._hash(key)
         return self.table[hash_index]
@@ -237,7 +237,7 @@ class HashTable:
         self.capacity = 2 * len(self.table)
 
         i = self.prime_index
-        while HashTable.primes[i] <= self.capacity:
+        while Table.primes[i] <= self.capacity:
             i += 1
         self.prime_index = i - 1
 
@@ -266,7 +266,7 @@ class HashTable:
 
     def keys(self) -> List[str]:
         """
-        returns keys of HashNodes in table
+        returns keys of Nodes in table
         :param:
         :returns: List[str]
         """
@@ -278,7 +278,7 @@ class HashTable:
 
     def values(self) -> List[T]:
         """
-        returns values of HashNodes in table
+        returns values of Nodes in table
         :param:
         :returns: List[T]
         """
@@ -323,7 +323,7 @@ class RequestHandler:
         :returns: None
         """
         self.max_time = max_time
-        self.data = HashTable()
+        self.data = Table()
 
     def request(self, time: int, request_id: str, client_id: str) -> int:
         """
