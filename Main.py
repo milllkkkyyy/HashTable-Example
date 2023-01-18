@@ -84,7 +84,7 @@ class Table:
 
     def _hash_1(self, key: str) -> int:
         """
-        Converts a string x into a bin number for our hash table
+        Converts a string x into a bin number for the hash table
         :param key: key to be hashed
         :return: bin number to insert hash item at in our table, None if key is an empty string
         """
