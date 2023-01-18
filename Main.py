@@ -310,9 +310,9 @@ class HashTable:
         self.size = 0
 
 
-class ExecuteOnlyOnce:
+class RequestHandler:
     """
-    Represents a request handler.
+    A request handler.
     """
     __slots__ = ["max_time", "data"]
 
@@ -325,7 +325,7 @@ class ExecuteOnlyOnce:
         self.max_time = max_time
         self.data = HashTable()
 
-    def handle_request(self, time: int, request_id: str, client_id: str) -> int:
+    def request(self, time: int, request_id: str, client_id: str) -> int:
         """
         handles the requests
         :param: time: int, request_id: str, client_id: str
